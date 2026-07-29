@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from cinema.forms import LoginForm
 from cinema.models import User
-from flask_login import current_user, login_user
+from flask_login import current_user, login_user, logout_user
 
 config = load_dotenv()
 DB = os.environ['DB']
@@ -47,4 +47,8 @@ def login():
         login_user(user, form.remember_me.data)
 
     return redirect(url_for('index'), title='Log In')
-    
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
