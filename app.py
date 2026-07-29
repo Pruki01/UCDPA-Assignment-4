@@ -1,9 +1,11 @@
 import os
 from dotenv import load_dotenv
 from flask import Flask, render_template, redirect, flash, url_for
-import psycopg2
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from cinema.forms import LoginForm
+from cinema.models import User
+from flask_login import current_user, login_user
 
 config = load_dotenv()
 DB = os.environ['DB']
@@ -14,27 +16,35 @@ HOST = os.environ['HOST']
 PORT = os.environ['PORT']
 
 engine = create_engine(f'{DB}://{DB_USER}:{DB_PASSWORD}@{HOST}:{PORT}/{DATABASE}')
-print(engine)
-connection = engine.connect()
+Session = sessionmaker(bind=engine)
+session = Session()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
 @app.route('/')
 def index():
-    with engine.connect() as conn:
-        result = conn.execute(text("SELECT * FROM users"))
-        for row in result:
-            print(f'{row.email} {row.password}')
-    connection.close()
 
     return render_template('index.html', title='Star Movies!')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
 
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+
+    form = LoginForm()
     if form.validate_on_submit():
-        flash(f'Login requested for email {form.email}, remember_me={form.remember_me}')
-        redirect(url_for('index'))
-    return render_template('auth/login.html', title='Log In', form=form)
+
+        user = session.query(User).filter(User.email == form.email.data).one()
+
+        if user is None or user.check_password(form.password.data):
+
+            flash('Invalid username or password!')
+            return redirect(url_for('login'))
+
+
+        login_user(user, form.remember_me.data)
+
+    return redirect(url_for('index'), title='Log In')
+    
