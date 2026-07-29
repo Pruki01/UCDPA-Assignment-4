@@ -1,0 +1,37 @@
+from flask import render_template, redirect, flash, url_for
+from flask_login import current_user, login_user, logout_user
+from cinema.models import User
+from cinema.forms import LoginForm
+from app import app, session
+
+@app.route('/')
+def index():
+
+    return render_template('index.html', title='Star Movies!')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    print(current_user)
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+
+    form = LoginForm()
+    if form.validate_on_submit():
+
+        user = session.query(User).filter(User.email == form.email.data).one()
+        print(user)
+
+        if user is None or user.check_password(form.password.data):
+
+            flash('Invalid username or password!')
+            return redirect(url_for('login'))
+
+
+        login_user(user, form.remember_me.data)
+
+    return redirect(url_for('index'))
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
