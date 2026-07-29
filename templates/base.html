@@ -9,6 +9,11 @@
 </head>
 <body>
     
+    <nav>
+        <a href="{{ url_for('index') }}">Star Movies</a>
+        <a href="{{ url_for('login') }}">Log In</a>
+    </nav>
+    
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     <ul>
