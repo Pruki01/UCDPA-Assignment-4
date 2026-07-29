@@ -23,4 +23,4 @@ class User(UserMixin, Base):
     def load_user(id):
         return session.get(User, int(id))
 
-Base.metadata.create_all(session)
+Base.metadata.create_all(session.get_bind())
