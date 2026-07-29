@@ -28,7 +28,7 @@ def index():
             print(f'{row.email} {row.password}')
     connection.close()
 
-    return render_template('index.html', title='Hello world!')
+    return render_template('index.html', title='Star Movies!')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
