@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import EmailField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import ValidationError, DataRequired
+from wtforms.validators import ValidationError, DataRequired, EqualTo
 from cinema.models import User
 
 class LoginForm(FlaskForm):
@@ -12,7 +12,7 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     email       = EmailField('Email', validators=[DataRequired()])
     password    = PasswordField('Password', validators=[DataRequired()])
-    confirm_p   = PasswordField('Confirm Password', validators=[DataRequired()])
+    confirm_p   = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo(password)])
     submit      = SubmitField('Register')
 
     def validate_email(self, email):
