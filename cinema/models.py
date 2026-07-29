@@ -3,8 +3,7 @@ from sqlalchemy import ForeignKey, String, Integer, Boolean, create_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, sessionmaker
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-
-engine = create_engine('postgresql+psycopg2://test:test@localhost:5432/cinema')
+from app import session, login, session
 class Base(DeclarativeBase):
     id: Mapped[int] = mapped_column(primary_key=True)
 
@@ -20,4 +19,8 @@ class User(UserMixin, Base):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-Base.metadata.create_all(engine)
+    @login.user_loader
+    def load_user(id):
+        return session.get(User, int(id))
+
+Base.metadata.create_all(session)
