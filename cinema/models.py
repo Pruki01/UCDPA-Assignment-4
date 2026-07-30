@@ -1,5 +1,7 @@
 from typing import List, Optional
+from enum import Enum
 from sqlalchemy import ForeignKey, String, Integer, Boolean, create_engine
+from sqlalchemy import Enum as SQLEnum
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, sessionmaker
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -22,5 +24,15 @@ class User(UserMixin, Base):
     @login.user_loader
     def load_user(id):
         return session.get(User, int(id))
+
+class ScreenType(Enum):
+    Large   = 'Large'
+    Medium  = 'Medium'
+    Small   = 'Small'
+class Screen(Base):
+    __tablename__ = 'screens'
+
+    type: Mapped[ScreenType] = mapped_column(SQLEnum(ScreenType))
+
 
 Base.metadata.create_all(session.get_bind())
