@@ -1,8 +1,10 @@
 from flask import render_template, redirect, flash, url_for
 from flask_login import current_user, login_user, logout_user
 from cinema.models import User
-from cinema.forms import LoginForm, RegistrationForm
+from cinema.forms import LoginForm, RegistrationForm, AddMovieForm
 from app import app, session
+from werkzeug.utils import secure_filename
+import os
 
 @app.route('/')
 def index():
@@ -58,3 +60,19 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/movies/add', methods=['GET', 'POST'])
+def add_movie():
+    form = AddMovieForm()
+
+    if form.validate_on_submit():
+        file = form.file.data
+        print(file)
+        print(app.config['UPLOAD_PATH'])
+        print(os.path.exists(app.config['UPLOAD_PATH']))
+        file.save(os.path.join(
+                    app.config['UPLOAD_PATH'],
+                    secure_filename(file.filename)
+                    ))
+
+    return render_template('movies/add_form.html', title='Add Movie', form=form)
