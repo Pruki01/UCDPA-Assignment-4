@@ -1,8 +1,8 @@
 from typing import List, Optional
 from enum import Enum
-from sqlalchemy import ForeignKey, String, Integer, Boolean, create_engine
+from sqlalchemy import ForeignKey, String, Integer, Boolean, Date, Time
 from sqlalchemy import Enum as SQLEnum
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship, sessionmaker
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import session, login, session
@@ -33,6 +33,10 @@ class Screen(Base):
     __tablename__ = 'screens'
 
     type: Mapped[ScreenType] = mapped_column(SQLEnum(ScreenType))
+    screenings: Mapped[List['Screening']] = relationship(
+        back_populates='screen',
+        cascade='all, delete-orphan'
+    )
 
 
 class MovieGenre(Enum):
@@ -47,5 +51,23 @@ class Movie(Base):
     title:      Mapped[str]          = mapped_column(String(50))
     genre:      Mapped[MovieGenre]   = mapped_column(SQLEnum(MovieGenre))
     duration:   Mapped[int]          = mapped_column(Integer)
+    image:      Mapped[str]          = mapped_column(String(255)) 
+    screenings: Mapped[List['Screening']] = relationship(
+        back_populates='movie',
+        cascade='all, delete-orphan'
+    )
+
+class Screening(Base):
+    __tablename__ = 'screenings'
+    movie_id:   Mapped[int]     = mapped_column(ForeignKey('movies.id'))
+    screen_id:  Mapped[int]     = mapped_column(ForeignKey('screens.id'))
+    date:       Mapped[Date]    = mapped_column(Date)
+    time:       Mapped[Time]    = mapped_column(Time)
+    movies:     Mapped['Movie'] = relationship(
+        back_populates='screening'
+    )
+    movies:     Mapped['Screen'] = relationship(
+        back_populates='screening'
+    )
 
 Base.metadata.create_all(session.get_bind())
