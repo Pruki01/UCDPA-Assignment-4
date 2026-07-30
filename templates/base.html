@@ -10,6 +10,10 @@
 </head>
 <body>
     
+    {% if current_user.email %}
+    <h1>Hello {{ current_user.email }}</h1>
+    {% endif %}
+    
     <nav>
         <a href="{{ url_for('index') }}">Star Movies</a>
         <a href="{{ url_for('login') }}">Log In</a>
