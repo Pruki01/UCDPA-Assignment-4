@@ -45,14 +45,20 @@ class MovieGenre(Enum):
     HORROR      = 'Horror'
     COMEDY      = 'Comedy'
     Thriller    = 'Thriller'
+
+class MovieStatus(Enum):
+    CURRENT     = 'Current'
+    SPECIAL     = 'Special'
+    UPCOMING    = 'Upcoming'
 class Movie(Base):
     __tablename__ = 'movies'
 
-    title:      Mapped[str]          = mapped_column(String(50))
-    genre:      Mapped[MovieGenre]   = mapped_column(SQLEnum(MovieGenre))
-    duration:   Mapped[int]          = mapped_column(Integer)
-    image:      Mapped[str]          = mapped_column(String(255)) 
-    screenings: Mapped[List['Screening']] = relationship(
+    title:      Mapped[str]                 = mapped_column(String(50))
+    genre:      Mapped[MovieGenre]          = mapped_column(SQLEnum(MovieGenre))
+    duration:   Mapped[int]                 = mapped_column(Integer)
+    status:     Mapped[MovieStatus]         = mapped_column(SQLEnum(MovieStatus))
+    image:      Mapped[str]                 = mapped_column(String(255)) 
+    screenings: Mapped[List['Screening']]   = relationship(
         back_populates='movie',
         cascade='all, delete-orphan'
     )
