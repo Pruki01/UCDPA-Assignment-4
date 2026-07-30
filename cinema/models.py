@@ -11,7 +11,7 @@ class User(UserMixin, Base):
     __tablename__ = 'users'
     email: Mapped[str] = mapped_column(String(50))
     password: Mapped[str] = mapped_column(String(255), nullable=False)
-    is_admin: Mapped[bool] = mapped_column(Boolean)
+    is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
