@@ -11,9 +11,9 @@ class Base(DeclarativeBase):
 
 class User(UserMixin, Base):
     __tablename__ = 'users'
-    email: Mapped[str] = mapped_column(String(50))
-    password: Mapped[str] = mapped_column(String(255), nullable=False)
-    is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
+    email:      Mapped[str]     = mapped_column(String(50))
+    password:   Mapped[str]     = mapped_column(String(255), nullable=False)
+    is_admin:   Mapped[bool]    = mapped_column(Boolean, default=False)
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -34,5 +34,18 @@ class Screen(Base):
 
     type: Mapped[ScreenType] = mapped_column(SQLEnum(ScreenType))
 
+
+class MovieGenre(Enum):
+    ACTION      = 'Action'
+    DRAMA       = 'Drama'
+    HORROR      = 'Horror'
+    COMEDY      = 'Comedy'
+    Thriller    = 'Thriller'
+class Movie(Base):
+    __tablename__ = 'movies'
+
+    title:      Mapped[str]          = mapped_column(String(50))
+    genre:      Mapped[MovieGenre]   = mapped_column(SQLEnum(MovieGenre))
+    duration:   Mapped[int]          = mapped_column(Integer)
 
 Base.metadata.create_all(session.get_bind())
