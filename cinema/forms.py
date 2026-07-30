@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import EmailField, PasswordField, BooleanField, SubmitField
+from flask_wtf.file import FileField, FileRequired
+from wtforms import EmailField, PasswordField, BooleanField, SubmitField, StringField, IntegerField
 from wtforms.validators import ValidationError, DataRequired, EqualTo
 from cinema.models import User
 from app import session
@@ -20,3 +21,9 @@ class RegistrationForm(FlaskForm):
         user = session.query(User).filter(User.email == email.data).first()
         if user is not None:
             raise ValidationError('The email is already registered. Please use another!')
+
+class AddMovieForm(FlaskForm):
+    title       = StringField('Title', validators=[DataRequired()])
+    duration    = IntegerField('Duration', validators=[DataRequired()])
+    file        = FileField('File', validators=[FileRequired()])
+    submit      = SubmitField('Add Movie')
