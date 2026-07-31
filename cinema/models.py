@@ -106,7 +106,7 @@ class Ticket(Base):
         back_populates='tickets'
     )
     order:          Mapped['Order']     = relationship(
-        back_populates='orders'
+        back_populates='tickets'
     )
 
 class Order(Base):
