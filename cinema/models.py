@@ -98,7 +98,7 @@ class Ticket(Base):
     __tablename__ = 'tickets'
 
     screening_id:   Mapped[int]         = mapped_column(ForeignKey('screenings.id'))
-    order_id:       Mapped[int]
+    order_id:       Mapped[int]         = mapped_column(ForeignKey('orders.id'))
     ordered:        Mapped[DateTime]    = mapped_column(DateTime)
     seat:           Mapped[str]         = mapped_column(String(3))
     type:           Mapped[TicketType]  = mapped_column(SQLEnum(TicketType))
