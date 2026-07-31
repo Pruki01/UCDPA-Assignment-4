@@ -14,6 +14,10 @@ class User(UserMixin, Base):
     email:      Mapped[str]     = mapped_column(String(50))
     password:   Mapped[str]     = mapped_column(String(255), nullable=False)
     is_admin:   Mapped[bool]    = mapped_column(Boolean, default=False)
+    orders:     Mapped['Order'] = relationship(
+        back_populates='user',
+        cascade='all, delete-orphan'
+    )
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -101,7 +105,23 @@ class Ticket(Base):
     screening:      Mapped['Screening'] = relationship(
         back_populates='tickets'
     )
+    order:          Mapped['Order']     = relationship(
+        back_populates='orders'
+    )
 
+class Order(Base):
+    __tablename__ = 'orders'
+
+    user_id:    Mapped[int]         = mapped_column(ForeignKey('users.id'))
+    ticket_id:  Mapped[int]         = mapped_column(ForeignKey('tickets.id'))
+
+    user:       Mapped['User']      = relationship(
+        back_populates='orders'
+    )
+    tickets:     Mapped['Ticket']    = relationship(
+        back_populates='order',
+        cascade='all, delete-orphan'
+    )
 
 Base.metadata.create_all(session.get_bind())
 
