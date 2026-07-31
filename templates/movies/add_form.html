@@ -7,14 +7,37 @@
     <div>
         {{ form.title.label }}
         {{ form.title(size=50) }}
+        {% for error in form.title.errors %}
+            <span class="error">[{{ error }}]</span>
+        {% endfor %}
     </div>
     <div>
         {{ form.duration.label }}
         {{ form.duration }}
+        {% for error in form.duration.errors %}
+            <span class="error">[{{ error }}]</span>
+        {% endfor %}
     </div>
     <div>
         {{ form.file.label }}
         {{ form.file() }}
+        {% for error in form.file.errors %}
+            <span class="error">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ form.genre.label }}
+        {{ form.genre() }}
+        {% for error in form.genre.errors %}
+            <span class="error">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ form.status.label }}
+        {{ form.status() }}
+        {% for error in form.status.errors %}
+            <span class="error">[{{ error }}]</span>
+        {% endfor %}
     </div>
     <div>
         {{ form.submit() }}
