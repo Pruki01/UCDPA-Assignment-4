@@ -98,3 +98,10 @@ def add_movie():
         session.commit()
 
     return render_template('movies/add_form.html', title='Add Movie', form=form)
+
+@app.route('/movie/<int:id>')
+def movie_view(id):
+
+    movie = session.query(Movie).filter(Movie.id == id).first()
+    return render_template('movies/movie.html', movie=movie)
+

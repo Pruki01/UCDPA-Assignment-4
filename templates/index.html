@@ -16,7 +16,8 @@
         {% for movie in special_movies %}
             <h2>
 
-                {{ movie.title }}
+                <p>{{ movie.id }}</p>
+                <a href="{{ url_for('movie_view', id=movie.id)}}">{{ movie.title }}</a>
                 <img src="{{ url_for('static', filename='movies/' + movie.image) }}" alt="Poster of {{ movie.title }} movie!">
 
             </h2>
