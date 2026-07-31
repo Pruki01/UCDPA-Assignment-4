@@ -102,6 +102,13 @@ def add_movie():
 @app.route('/movie/<int:id>')
 def movie_view(id):
 
-    movie = session.query(Movie).filter(Movie.id == id).first()
+    movie = session.get(Movie, id)
     return render_template('movies/movie.html', movie=movie)
 
+@app.route('/movie/edit/<int:id>')
+def edit_movie(id):
+
+
+    movie = session.get(Movie, id)
+    form = AddMovieForm(obj=movie)
+    return render_template('movies/edit_movie.html', form=form)
