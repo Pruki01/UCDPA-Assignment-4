@@ -1,6 +1,6 @@
 from typing import List, Optional
 from enum import Enum
-from sqlalchemy import ForeignKey, String, Integer, Boolean, Date, Time
+from sqlalchemy import ForeignKey, String, Integer, Boolean, Date, Time, DateTime, Float
 from sqlalchemy import Enum as SQLEnum
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from flask_login import UserMixin
@@ -65,15 +65,43 @@ class Movie(Base):
 
 class Screening(Base):
     __tablename__ = 'screenings'
-    movie_id:   Mapped[int]     = mapped_column(ForeignKey('movies.id'))
-    screen_id:  Mapped[int]     = mapped_column(ForeignKey('screens.id'))
-    date:       Mapped[Date]    = mapped_column(Date)
-    time:       Mapped[Time]    = mapped_column(Time)
-    movie:     Mapped['Movie'] = relationship(
+    movie_id:   Mapped[int]         = mapped_column(ForeignKey('movies.id'))
+    screen_id:  Mapped[int]         = mapped_column(ForeignKey('screens.id'))
+    date:       Mapped[Date]        = mapped_column(Date)
+    time:       Mapped[Time]        = mapped_column(Time)
+    movie:      Mapped['Movie']     = relationship(
         back_populates='screenings'
     )
-    screen:     Mapped['Screen'] = relationship(
+    screen:     Mapped['Screen']    = relationship(
         back_populates='screenings'
+    )
+    tickets:    Mapped['Ticket']    = relationship(
+        back_populates='screening',
+        cascade='all, delete-orphan'
     )
 
+class TicketType(Enum):
+    ADULT   = 'Adult'
+    CHILD   = 'Child'
+    STUDENT = 'Student'
+
+class TicketPrice(Enum):
+    ADULT   = 10.99
+    CHILD   = 8.99
+    STUDENT = 9.99
+
+class Ticket(Base):
+    __tablename__ = 'tickets'
+
+    screening_id:   Mapped[int]         = mapped_column(ForeignKey('screenings.id'))
+    ordered:        Mapped[DateTime]    = mapped_column(DateTime)
+    seat:           Mapped[str]         = mapped_column(String(3))
+    type:           Mapped[TicketType]  = mapped_column(SQLEnum(TicketType))
+    price:          Mapped[Float]       = mapped_column(Float)
+    screening:      Mapped['Screening'] = relationship(
+        back_populates='tickets'
+    )
+
+
 Base.metadata.create_all(session.get_bind())
+
