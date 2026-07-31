@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
-from wtforms import EmailField, PasswordField, BooleanField, SubmitField, StringField, IntegerField, SelectField
+from wtforms import EmailField, PasswordField, BooleanField, SubmitField, StringField, IntegerField, SelectField, DateField, TimeField
 from wtforms.validators import ValidationError, DataRequired, EqualTo
-from cinema.models import User, MovieGenre, MovieStatus
+from cinema.models import User, MovieGenre, MovieStatus, Movie, Screen
 from app import session
 
 class LoginForm(FlaskForm):
@@ -35,3 +35,21 @@ class AddMovieForm(FlaskForm):
                               validators=[DataRequired()])
     file        = FileField('File', validators=[FileRequired()])
     submit      = SubmitField('Add Movie')
+
+class AddScreeningForm(FlaskForm):
+    movies = session.query(Movie)
+    print(movies)
+    screens = session.query(Screen)
+    movie   = SelectField('Movie',
+                            choices=[(movie.id, movie.title) for movie in movies],
+                            coerce=int,
+                            validators=[DataRequired()]
+                            )
+    screen  = SelectField('Screen',
+                            choices=[(screen.id, screen.id) for screen in screens],
+                            coerce=int,
+                            validators=[DataRequired()]
+                            )
+    date = DateField('Date', validators=[DataRequired()])
+    time = TimeField('Time', validators=[DataRequired()])
+    submit = SubmitField('Add Screening')
