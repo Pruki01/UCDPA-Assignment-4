@@ -14,7 +14,7 @@ class User(UserMixin, Base):
     email:      Mapped[str]     = mapped_column(String(50))
     password:   Mapped[str]     = mapped_column(String(255), nullable=False)
     is_admin:   Mapped[bool]    = mapped_column(Boolean, default=False)
-    orders:     Mapped['Order'] = relationship(
+    orders:     Mapped[List['Order']] = relationship(
         back_populates='user',
         cascade='all, delete-orphan'
     )
@@ -118,7 +118,7 @@ class Order(Base):
     user:       Mapped['User']      = relationship(
         back_populates='orders'
     )
-    tickets:     Mapped['Ticket']    = relationship(
+    tickets:     Mapped[List['Ticket']]    = relationship(
         back_populates='order',
         cascade='all, delete-orphan'
     )
