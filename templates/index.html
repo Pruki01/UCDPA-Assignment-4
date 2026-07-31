@@ -1,5 +1,34 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Hello World</h1>
+
+    <div id="current-movies">
+        {% for movie in current_movies %}
+            <h2>
+
+                {{ movie.title }}
+
+            </h2>
+        {% endfor %}
+    </div>
+
+    <div id="special-movies">
+        {% for movie in special_movies %}
+            <h2>
+
+                {{ movie.title }}
+
+            </h2>
+        {% endfor %}
+    </div>
+
+    <div id="upcoming-movies">
+        {% for movie in upcoming_movies %}
+            <h2>
+
+                {{ movie.title }}
+
+            </h2>
+        {% endfor %}
+    </div>
 {% endblock %}

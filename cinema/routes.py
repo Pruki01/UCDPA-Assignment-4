@@ -9,7 +9,18 @@ import os
 @app.route('/')
 def index():
 
-    return render_template('index.html', title='Star Movies!')
+    current_movies  = session.query(Movie).filter(Movie.status == MovieStatus.CURRENT).all()
+    special_movies  = session.query(Movie).filter(Movie.status == MovieStatus.SPECIAL).all()
+    upcoming_movies = session.query(Movie).filter(Movie.status == MovieStatus.UPCOMING).all()
+
+    print(current_movies)
+    print(special_movies)
+    print(upcoming_movies)
+
+    return render_template('index.html', title='Star Movies!', 
+                           current_movies=current_movies, 
+                           special_movies=special_movies, 
+                           upcoming_movies=upcoming_movies)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
