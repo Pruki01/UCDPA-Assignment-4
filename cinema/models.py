@@ -11,10 +11,10 @@ class Base(DeclarativeBase):
 
 class User(UserMixin, Base):
     __tablename__ = 'users'
-    email:      Mapped[str]     = mapped_column(String(50))
-    password:   Mapped[str]     = mapped_column(String(255), nullable=False)
-    is_admin:   Mapped[bool]    = mapped_column(Boolean, default=False)
-    orders:     Mapped[List['Order']] = relationship(
+    email:      Mapped[str]             = mapped_column(String(50))
+    password:   Mapped[str]             = mapped_column(String(255), nullable=False)
+    is_admin:   Mapped[bool]            = mapped_column(Boolean, default=False)
+    orders:     Mapped[List['Order']]   = relationship(
         back_populates='user',
         cascade='all, delete-orphan'
     )
@@ -98,6 +98,7 @@ class Ticket(Base):
     __tablename__ = 'tickets'
 
     screening_id:   Mapped[int]         = mapped_column(ForeignKey('screenings.id'))
+    order_id:       Mapped[int]
     ordered:        Mapped[DateTime]    = mapped_column(DateTime)
     seat:           Mapped[str]         = mapped_column(String(3))
     type:           Mapped[TicketType]  = mapped_column(SQLEnum(TicketType))
@@ -112,13 +113,12 @@ class Ticket(Base):
 class Order(Base):
     __tablename__ = 'orders'
 
-    user_id:    Mapped[int]         = mapped_column(ForeignKey('users.id'))
-    ticket_id:  Mapped[int]         = mapped_column(ForeignKey('tickets.id'))
+    user_id:    Mapped[int]             = mapped_column(ForeignKey('users.id'))
 
-    user:       Mapped['User']      = relationship(
+    user:       Mapped['User']          = relationship(
         back_populates='orders'
     )
-    tickets:     Mapped[List['Ticket']]    = relationship(
+    tickets:     Mapped[List['Ticket']] = relationship(
         back_populates='order',
         cascade='all, delete-orphan'
     )
