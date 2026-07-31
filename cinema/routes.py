@@ -1,7 +1,7 @@
 from flask import render_template, redirect, flash, url_for
 from flask_login import current_user, login_user, logout_user
-from cinema.models import User, Movie, MovieStatus, MovieGenre
-from cinema.forms import LoginForm, RegistrationForm, AddMovieForm
+from cinema.models import User, Movie, MovieStatus, MovieGenre, Screen, ScreenType, Screening
+from cinema.forms import LoginForm, RegistrationForm, AddMovieForm, AddScreeningForm
 from app import app, session
 from werkzeug.utils import secure_filename
 import os
@@ -16,6 +16,8 @@ def index():
     print(current_movies)
     print(special_movies)
     print(upcoming_movies)
+
+    session.commit()
 
     return render_template('index.html', title='Star Movies!', 
                            current_movies=current_movies, 
@@ -97,7 +99,7 @@ def add_movie():
         session.add(new_movie)
         session.commit()
 
-    return render_template('movies/add_form.html', title='Add Movie', form=form)
+    return render_template('/movies/add_form.html', title='Add Movie', form=form)
 
 @app.route('/movie/<int:id>')
 def movie_view(id):
@@ -112,3 +114,29 @@ def edit_movie(id):
     movie = session.get(Movie, id)
     form = AddMovieForm(obj=movie)
     return render_template('movies/edit_movie.html', form=form)
+
+@app.route('/movie/screenings/add', methods=['GET', 'POST'])
+def add_screening():
+    form = AddScreeningForm()
+    print(form)
+
+    if form.validate_on_submit():
+
+        selected_screen = session.get(Screen, form.screen.data)
+        selected_movie  = session.get(Movie, form.movie.data)
+
+        print(selected_movie.title)
+        print(selected_screen.id)
+        new_screening = Screening(
+            movie_id = selected_movie.id,
+            screen_id = selected_screen.id,
+            date = form.date.data,
+            time = form.time.data
+        )
+        
+        session.add(new_screening)
+        session.commit()
+
+        return redirect(url_for('index')) 
+
+    return render_template('movies/add_screening.html', form=form)
