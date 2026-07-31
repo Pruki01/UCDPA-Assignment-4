@@ -27,9 +27,11 @@ class AddMovieForm(FlaskForm):
     duration    = IntegerField('Duration', validators=[DataRequired()])
     genre       = SelectField("Genres",
                               choices=[(genre.value, genre.name.title()) for genre in MovieGenre],
+                              coerce=MovieGenre,
                               validators=[DataRequired()])
     status      = SelectField("Status",
                               choices=[(status.value, status.name.title()) for status in MovieStatus],
+                              coerce=MovieStatus,
                               validators=[DataRequired()])
     file        = FileField('File', validators=[FileRequired()])
     submit      = SubmitField('Add Movie')
