@@ -69,11 +69,11 @@ class Screening(Base):
     screen_id:  Mapped[int]     = mapped_column(ForeignKey('screens.id'))
     date:       Mapped[Date]    = mapped_column(Date)
     time:       Mapped[Time]    = mapped_column(Time)
-    movies:     Mapped['Movie'] = relationship(
-        back_populates='screening'
+    movie:     Mapped['Movie'] = relationship(
+        back_populates='screenings'
     )
-    movies:     Mapped['Screen'] = relationship(
-        back_populates='screening'
+    screen:     Mapped['Screen'] = relationship(
+        back_populates='screenings'
     )
 
 Base.metadata.create_all(session.get_bind())
