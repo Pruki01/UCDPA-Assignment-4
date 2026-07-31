@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="" method="post" enctype="multipart/form-data">
+
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.movie.label }}
+        {{ form.movie() }}
+        {% for error in form.movie.errors %}
+            <span class="error">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ form.screen.label }}
+        {{ form.screen() }}
+        {% for error in form.screen.errors %}
+            <span class="error">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ form.date.label }}
+        {{ form.date() }}
+        {% for error in form.date.errors %}
+            <span class="error">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ form.time.label }}
+        {{ form.time() }}
+        {% for error in form.time.errors %}
+            <span class="error">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ form.submit() }}
+    </div>
+
+</form>
+
+{% endblock %}
