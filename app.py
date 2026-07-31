@@ -7,7 +7,11 @@ from flask_login import LoginManager
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
-app.config['UPLOAD_PATH'] = os.path.join(app.root_path, os.environ['UPLOAD_PATH'])
+
+if os.name == 'nt':
+    app.config['UPLOAD_PATH'] = os.path.join(app.root_path, os.environ['UPLOAD_PATH_WIN'])
+else:
+    app.config['UPLOAD_PATH'] = os.path.join(app.root_path, os.environ['UPLOAD_PATH'])
 
 config = load_dotenv()
 DB = os.environ['DB']
