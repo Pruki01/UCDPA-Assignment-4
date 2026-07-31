@@ -1,6 +1,6 @@
 from flask import render_template, redirect, flash, url_for
 from flask_login import current_user, login_user, logout_user
-from cinema.models import User
+from cinema.models import User, Movie, MovieStatus, MovieGenre
 from cinema.forms import LoginForm, RegistrationForm, AddMovieForm
 from app import app, session
 from werkzeug.utils import secure_filename
@@ -74,5 +74,16 @@ def add_movie():
                     app.config['UPLOAD_PATH'],
                     secure_filename(file.filename)
                     ))
+
+        new_movie = Movie(
+            title=form.title.data,
+            genre=MovieGenre(form.genre.data),
+            duration=form.duration.data,
+            status=MovieStatus(form.status.data),
+            image=file.filename
+        )
+
+        session.add(new_movie)
+        session.commit()
 
     return render_template('movies/add_form.html', title='Add Movie', form=form)
