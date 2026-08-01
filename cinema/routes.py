@@ -1,6 +1,6 @@
 from flask import render_template, redirect, flash, url_for, request, jsonify
 from flask_login import current_user, login_user, logout_user
-from cinema.models import User, Movie, MovieStatus, MovieGenre, Screen, ScreenType, Screening, Order, Ticket
+from cinema.models import User, Movie, MovieStatus, MovieGenre, Screen, ScreenType, Screening, Order, Ticket, TicketType, TicketPrice
 from cinema.forms import LoginForm, RegistrationForm, AddMovieForm, AddScreeningForm, AddTickets
 from app import app, session
 from werkzeug.utils import secure_filename
@@ -142,20 +142,32 @@ def buy_tickets(id):
     form = AddTickets()
 
     screening = session.get(Screening, id)
-    
     template = screening.screen.type.value.lower() + '.html'
-    print(template)
 
     if form.validate_on_submit():
 
-        order = Order()
+        order = Order(
+            user_id=current_user.id
+        )
+        session.add(order)
+        session.flush()
 
         seats = form.tickets.data
         tickets = seats.split(',')[:-1]
 
         for ticket in tickets:
+            print(ticket)
             new_ticket = Ticket(
-
+                screening=screening,
+                order=order,
+                ordered=datetime.datetime.now(),
+                type=TicketType.ADULT,
+                seat=ticket,
+                price=TicketPrice.ADULT.value
             )
+            session.add(new_ticket)
+
+        session.commit()
+        return redirect(url_for('index'))
 
     return render_template(f'screens/{template}', form=form)
