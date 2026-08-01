@@ -190,6 +190,16 @@ def buy_tickets(id):
 
     return render_template(f'screens/{template}', form=form)
 
+@app.route('/profile/<int:id>')
+def profile_view(id):
+
+    if current_user.id == id:
+        user = session.get(User, id)
+    else:
+        return redirect(url_for('index'))
+
+    return render_template('auth/profile.html', user=user)
+
 @app.errorhandler(404)
 def not_found_error(error):
     return render_template('errors/404.html'), 404
@@ -198,3 +208,4 @@ def not_found_error(error):
 def internal_error(error):
     session.rollback()
     return render_template('errors/500.html'), 500
+

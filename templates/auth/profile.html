@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css')}}">
+
+{% endblock %}
+
+{% block content %}
+
+    <h2>{{ user.email }}</h2>
+
+    {% for order in user.orders %}
+
+        <div class="ticket-container">
+
+            {% set ticket = order.tickets[0] %}
+            
+            <div class="ticket">
+
+                {{ ticket.screening.movie.title }}
+
+                {% for ticket in order.tickets %}
+
+                    <h4>{{ ticket.seat }} | {{ ticket.ordered.strftime('%m/%d %H:%M') }}</h4>
+
+                {% endfor %}
+
+            </div>
+
+            <hr>
+        </div>
+
+
+    {% endfor %}
+
+{% endblock %}
