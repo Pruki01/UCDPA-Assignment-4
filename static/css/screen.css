@@ -1,0 +1,57 @@
+:root{
+
+    --seat-height: 2rem;
+    --seath-width: 2.5rem;
+    --border-radius: .8rem;
+
+    --seat-availlable: black;
+    --seat--occupied: red;
+    --seat--selected: rgb(39, 166, 189); 
+
+}
+
+
+.seats{
+
+    margin: 0 auto;
+    display: inline-block;
+
+}
+
+.row{
+
+    display: flex;
+
+}
+
+.seat{
+
+    background-color: black;
+    width: var(--seath-width);
+    height: var(--seat-height);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+    margin: 0.2rem;
+
+}
+
+.seat.empty{
+
+    background-color: white;
+
+}
+
+.seat.selected{
+    background-color: var(--seat--selected);
+}
+
+.seat.occupied{
+    background-color: var(--seat--occupied);
+}
+
+.seat:hover{
+
+    cursor: pointer;
+    transform: scale(1.2);
+
+}
