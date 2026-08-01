@@ -5,6 +5,7 @@ from cinema.forms import LoginForm, RegistrationForm, AddMovieForm, AddScreening
 from app import app, session
 from werkzeug.utils import secure_filename
 import os, datetime
+from collections import defaultdict
 
 @app.route('/')
 def index():
@@ -101,11 +102,12 @@ def movie_view(id):
 
     movie = session.get(Movie, id)
 
-    for screening in movie.screenings:
-        print(screening.time)
-        print(screening.screen.type)
+    screening_by_date = defaultdict(list)
 
-    return render_template('movies/movie.html', movie=movie)
+    for screening in sorted(movie.screenings, key=lambda s: (s.date, s.time)):
+        screening_by_date[screening.date].append(screening)
+
+    return render_template('movies/movie.html', movie=movie, screenings=screening_by_date)
 
 @app.route('/movie/edit/<int:id>')
 def edit_movie(id):
