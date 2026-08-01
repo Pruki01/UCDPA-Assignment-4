@@ -1,10 +1,10 @@
-from flask import render_template, redirect, flash, url_for
+from flask import render_template, redirect, flash, url_for, request, jsonify
 from flask_login import current_user, login_user, logout_user
-from cinema.models import User, Movie, MovieStatus, MovieGenre, Screen, ScreenType, Screening
-from cinema.forms import LoginForm, RegistrationForm, AddMovieForm, AddScreeningForm
+from cinema.models import User, Movie, MovieStatus, MovieGenre, Screen, ScreenType, Screening, Order, Ticket
+from cinema.forms import LoginForm, RegistrationForm, AddMovieForm, AddScreeningForm, AddTickets
 from app import app, session
 from werkzeug.utils import secure_filename
-import os
+import os, datetime
 
 @app.route('/')
 def index():
@@ -12,12 +12,6 @@ def index():
     current_movies  = session.query(Movie).filter(Movie.status == MovieStatus.CURRENT).all()
     special_movies  = session.query(Movie).filter(Movie.status == MovieStatus.SPECIAL).all()
     upcoming_movies = session.query(Movie).filter(Movie.status == MovieStatus.UPCOMING).all()
-
-    print(current_movies)
-    print(special_movies)
-    print(upcoming_movies)
-
-    session.commit()
 
     return render_template('index.html', title='Star Movies!', 
                            current_movies=current_movies, 
@@ -99,17 +93,21 @@ def add_movie():
         session.add(new_movie)
         session.commit()
 
-    return render_template('/movies/add_form.html', title='Add Movie', form=form)
+    return render_template('movies/add_form.html', title='Add Movie', form=form)
 
 @app.route('/movie/<int:id>')
 def movie_view(id):
 
     movie = session.get(Movie, id)
+
+    for screening in movie.screenings:
+        print(screening.time)
+        print(screening.screen.type)
+
     return render_template('movies/movie.html', movie=movie)
 
 @app.route('/movie/edit/<int:id>')
 def edit_movie(id):
-
 
     movie = session.get(Movie, id)
     form = AddMovieForm(obj=movie)
@@ -125,8 +123,6 @@ def add_screening():
         selected_screen = session.get(Screen, form.screen.data)
         selected_movie  = session.get(Movie, form.movie.data)
 
-        print(selected_movie.title)
-        print(selected_screen.id)
         new_screening = Screening(
             movie_id = selected_movie.id,
             screen_id = selected_screen.id,
@@ -140,3 +136,26 @@ def add_screening():
         return redirect(url_for('index')) 
 
     return render_template('movies/add_screening.html', form=form)
+
+@app.route('/screening/<int:id>', methods=['GET', 'POST'])
+def buy_tickets(id):
+    form = AddTickets()
+
+    screening = session.get(Screening, id)
+    
+    template = screening.screen.type.value.lower() + '.html'
+    print(template)
+
+    if form.validate_on_submit():
+
+        order = Order()
+
+        seats = form.tickets.data
+        tickets = seats.split(',')[:-1]
+
+        for ticket in tickets:
+            new_ticket = Ticket(
+
+            )
+
+    return render_template(f'screens/{template}', form=form)
