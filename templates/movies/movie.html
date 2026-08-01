@@ -32,11 +32,15 @@
 
     {% for date, screenings in screenings.items() %}
 
-        <h2>{{ date }}</h2>
+        <div class="day">
 
-        {% for screening in screenings %}
-            <a class="timeslot" href="{{ url_for('buy_tickets', id=screening.id) }}">{{ screening.time.strftime('%H:%M') }}</a>
-        {% endfor %}
+            <h2>{{ date }}</h2>
+
+            {% for screening in screenings %}
+                <a class="timeslot" href="{{ url_for('buy_tickets', id=screening.id) }}">{{ screening.time.strftime('%H:%M') }}</a>
+            {% endfor %}
+
+        </div>
 
     {% endfor %}
 
