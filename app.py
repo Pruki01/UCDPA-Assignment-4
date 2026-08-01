@@ -21,7 +21,7 @@ DB_PASSWORD = os.environ['DB_PASSWORD']
 HOST = os.environ['HOST']
 PORT = os.environ['PORT']
 
-engine = create_engine(f'{DB}://{DB_USER}:{DB_PASSWORD}@{HOST}:{PORT}/{DATABASE}')
+engine = create_engine(os.environ['DATABASE_URI'])
 Session = sessionmaker(bind=engine)
 session = Session()
 
