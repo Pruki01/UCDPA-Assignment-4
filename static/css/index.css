@@ -9,13 +9,6 @@
 
 }
 
-main div{
-
-    display: flex;
-    align-items: center;
-
-}
-
 img{
 
     width: var(--image-width);
@@ -25,8 +18,30 @@ img{
 
 }
 
+button{
+
+    cursor: pointer;
+
+}
+
+.movie-container,
+.movies{
+
+    display: flex;
+    align-items: center;
+
+}
+
+.movies{
+
+    overflow-x: auto;
+    scroll-behavior: smooth;
+
+}
+
 .movie{
 
+    flex: 0 0 auto;
     display: flex;
     flex-direction: column;
     margin: var(--movie-margin-height) var(--movie-margin-width);

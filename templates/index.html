@@ -8,38 +8,57 @@
 
 {% block content %}
 
-    <div class="movies" id="current-movies">
-        {% for movie in current_movies %}
+    <div class="movie-container">
+        <button class="left-arrow">&#10094;</button>
 
-            <div class="movie">
+        <div class="movies" id="current-movies">
 
-                <a href="{{ url_for('movie_view', id=movie.id) }}"><img src="{{ url_for('static', filename='movies/' + movie.image) }}" alt="Poster of {{ movie.title }} movie!"></a>
-                <a href="{{ url_for('movie_view', id=movie.id) }}" class="movie-link">{{ movie.title }}</a>
+            {% for movie in current_movies %}
 
-            </div>
+                <div class="movie">
 
-        {% endfor %}
+                    <a href="{{ url_for('movie_view', id=movie.id) }}"><img src="{{ url_for('static', filename='movies/' + movie.image) }}" alt="Poster of {{ movie.title }} movie!"></a>
+                    <a href="{{ url_for('movie_view', id=movie.id) }}" class="movie-link">{{ movie.title }}</a>
+
+                </div>
+
+            {% endfor %}
+        </div>
+
+        <button class="right-arrow">&#10095;</button>
     </div>
 
-    <div class="movies" id="special-movies">
-        {% for movie in special_movies %}
-            <div class="movie">
+    <div class="movie-container">
 
-                <a href="{{ url_for('movie_view', id=movie.id) }}"><img src="{{ url_for('static', filename='movies/' + movie.image) }}" alt="Poster of {{ movie.title }} movie!"></a>
-                <a href="{{ url_for('movie_view', id=movie.id) }}" class="movie-link">{{ movie.title }}</a>
+        <button class="left-arrow">&#10094;</button>
 
-            </div>
-        {% endfor %}
+        <div class="movies" id="special-movies">
+            {% for movie in special_movies %}
+                <div class="movie">
+
+                    <a href="{{ url_for('movie_view', id=movie.id) }}"><img src="{{ url_for('static', filename='movies/' + movie.image) }}" alt="Poster of {{ movie.title }} movie!"></a>
+                    <a href="{{ url_for('movie_view', id=movie.id) }}" class="movie-link">{{ movie.title }}</a>
+
+                </div>
+            {% endfor %}
+        </div>
+
+        <button class="right-arrow">&#10095;</button>
+
     </div>
 
-    <div class="movies" id="upcoming-movies">
-        {% for movie in upcoming_movies %}
-            <div class="movie">
+    <div class="movie-container">
+        <div class="movies" id="upcoming-movies">
+            {% for movie in upcoming_movies %}
+                <div class="movie">
 
-                <a href="{{ url_for('movie_view', id=movie.id) }}"><img src="{{ url_for('static', filename='movies/' + movie.image) }}" alt="Poster of {{ movie.title }} movie!"></a>
-                <a href="{{ url_for('movie_view', id=movie.id) }}" class="movie-link">{{ movie.title }}</a>
+                    <a href="{{ url_for('movie_view', id=movie.id) }}"><img src="{{ url_for('static', filename='movies/' + movie.image) }}" alt="Poster of {{ movie.title }} movie!"></a>
+                    <a href="{{ url_for('movie_view', id=movie.id) }}" class="movie-link">{{ movie.title }}</a>
 
-            </div>
-        {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
     </div>
+
+    <script src="{{ url_for('static', filename='js/scroll.js') }}"></script>
 {% endblock %}
