@@ -1,7 +1,40 @@
 {% extends 'base.html' %}
+{% block head %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/movie.css') }}">
+
+{% endblock %}
 
 {% block content %}
 
-    <a href="{{ url_for('edit_movie', id=movie.id) }}">Edit</a>
-    {{ movie.title }}
+    {% if current_user.is_admin %}
+        <a href="{{ url_for('edit_movie', id=movie.id) }}">Edit</a>
+    {% endif %}
+
+    <div class="about-movie">
+
+        <div class="movie-information">
+
+            <h2>{{ movie.title }}</h2>
+            <h3>{{ movie.genre.value }} | {{ movie.duration }} minutes</h3>
+            <hr>
+            <p>
+                {{ movie.description }}
+            </p>
+
+        </div>
+
+        <div class="image-area">
+            <img class="movie-image" src="{{ url_for('static', filename='movies/' + movie.image )}}" alt="Poster of {{ movie.title }} movie">
+        </div>
+    </div>
+
+
+    {% for screening in movie.screenings %}
+
+        <h2>{{ screening.date }}</h2>
+        <a href="{{ url_for('buy_tickets', id=screening.id) }}">Buy tickets</a>
+
+    {% endfor %}
+
 {% endblock %}

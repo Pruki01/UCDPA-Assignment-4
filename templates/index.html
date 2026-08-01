@@ -1,40 +1,45 @@
 {% extends 'base.html' %}
 
+{% block head %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+
+{% endblock %}
+
 {% block content %}
 
     <div class="movies" id="current-movies">
         {% for movie in current_movies %}
-            <h2>
 
-                {{ movie.title }}
-                <a href="{{ url_for('movie_view', id=movie.id)}}">{{ movie.title }}</a>
-                <img src="{{ url_for('static', filename='movies/' + movie.image) }}" alt="Poster of {{ movie.title }} movie!">
+            <div class="movie">
 
-            </h2>
+                <a href="{{ url_for('movie_view', id=movie.id) }}"><img src="{{ url_for('static', filename='movies/' + movie.image) }}" alt="Poster of {{ movie.title }} movie!"></a>
+                <a href="{{ url_for('movie_view', id=movie.id) }}" class="movie-link">{{ movie.title }}</a>
+
+            </div>
+
         {% endfor %}
     </div>
 
     <div class="movies" id="special-movies">
         {% for movie in special_movies %}
-            <h2>
+            <div class="movie">
 
-                <p>{{ movie.id }}</p>
-                <a href="{{ url_for('movie_view', id=movie.id)}}">{{ movie.title }}</a>
-                <img src="{{ url_for('static', filename='movies/' + movie.image) }}" alt="Poster of {{ movie.title }} movie!">
+                <a href="{{ url_for('movie_view', id=movie.id) }}"><img src="{{ url_for('static', filename='movies/' + movie.image) }}" alt="Poster of {{ movie.title }} movie!"></a>
+                <a href="{{ url_for('movie_view', id=movie.id) }}" class="movie-link">{{ movie.title }}</a>
 
-            </h2>
+            </div>
         {% endfor %}
     </div>
 
     <div class="movies" id="upcoming-movies">
         {% for movie in upcoming_movies %}
-            <h2>
+            <div class="movie">
 
-                {{ movie.title }}
-                <a href="{{ url_for('movie_view', id=movie.id)}}">{{ movie.title }}</a>
-                <img src="{{ url_for('static', filename='movies/' + movie.image) }}" alt="Poster of {{ movie.title }} movie!">
+                <a href="{{ url_for('movie_view', id=movie.id) }}"><img src="{{ url_for('static', filename='movies/' + movie.image) }}" alt="Poster of {{ movie.title }} movie!"></a>
+                <a href="{{ url_for('movie_view', id=movie.id) }}" class="movie-link">{{ movie.title }}</a>
 
-            </h2>
+            </div>
         {% endfor %}
     </div>
 {% endblock %}
