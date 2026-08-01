@@ -66,7 +66,8 @@ class Movie(Base):
     image:          Mapped[str]                 = mapped_column(String(255)) 
     screenings:     Mapped[List['Screening']]   = relationship(
         back_populates='movie',
-        cascade='all, delete-orphan'
+        cascade='all, delete-orphan',
+        order_by=lambda: (Screening.date, Screening.time)
     )
 
 class Screening(Base):
