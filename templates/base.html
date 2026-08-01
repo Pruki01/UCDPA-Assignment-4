@@ -24,6 +24,13 @@
 
         <div class="nav-links">
 
+            {% if current_user.is_admin %}
+
+                <a href="{{ url_for('add_movie') }}">Add a movie</a>
+                <a href="{{ url_for('add_screening') }}">Add a screening</a>
+
+            {% endif %}
+
             {% if not current_user.email %}
 
                 <a href="{{ url_for('login') }}">Log In</a>
@@ -34,12 +41,6 @@
 
             {% endif %}
 
-            {% if current_user.is_admin %}
-
-                <a href="{{ url_for('add_movie') }}">Add a movie</a>
-                <a href="{{ url_for('add_screening') }}">Add a screening</a>
-
-            {% endif %}
 
         </div>
     </nav>

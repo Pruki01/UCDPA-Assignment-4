@@ -19,7 +19,7 @@
                 <span class="error">[{{ error }}]</span>
             {% endfor %}
         </div>
-        <div>
+        <div id="remember">
             {{ form.remember_me() }} {{ form.remember_me.label }}
         </div>
         <div>
@@ -27,7 +27,7 @@
         </div>
     </form>
 
-    <div>
+    <div id="register-notice">
         <p>Don't have an account? <a href="{{ url_for('register') }}">Create a new one!</a></p>
     </div>
 {% endblock %}
