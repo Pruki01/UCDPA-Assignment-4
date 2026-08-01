@@ -56,6 +56,7 @@ def register():
         new_user.set_password(form.password.data)
         session.add(new_user)
         session.commit()
+        login_user(new_user)
         return redirect(url_for('index'))
 
     else:
