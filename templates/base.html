@@ -33,6 +33,7 @@
 
             {% else %}
 
+                <a href="{{ url_for('profile_view', id=current_user.id) }}">Profile</a>
                 <a href="{{ url_for('logout') }}">Logout</a>
 
             {% endif %}
