@@ -79,7 +79,7 @@ class Screening(Base):
     screen:     Mapped['Screen']    = relationship(
         back_populates='screenings'
     )
-    tickets:    Mapped['Ticket']    = relationship(
+    tickets:    Mapped[List['Ticket']]    = relationship(
         back_populates='screening',
         cascade='all, delete-orphan'
     )
