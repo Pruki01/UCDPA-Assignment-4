@@ -8,11 +8,15 @@
 
 {% block content %}
 
+    <div class="screen"></div>
+
     <div class="seats">
 
         {% block seats %}{% endblock %}
 
     </div>
+
+    <button class="tickets-btn">Pay</button>
 
 <script src="{{ url_for('static', filename='js/seats.js')}}"></script>
 

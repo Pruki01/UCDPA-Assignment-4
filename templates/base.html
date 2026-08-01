@@ -21,22 +21,27 @@
     <nav>
         <a href="{{ url_for('index') }}">Star Movies</a>
 
-        {% if not current_user.email %}
 
-            <a href="{{ url_for('login') }}">Log In</a>
+        <div class="nav-links">
 
-        {% else %}
+            {% if not current_user.email %}
 
-            <a href="{{ url_for('logout') }}">Logout</a>
+                <a href="{{ url_for('login') }}">Log In</a>
 
-        {% endif %}
+            {% else %}
 
-        {% if current_user.is_admin %}
+                <a href="{{ url_for('logout') }}">Logout</a>
 
-            <a href="{{ url_for('add_movie') }}">Add a movie</a>
-            <a href="{{ url_for('add_screening') }}">Add a screening</a>
+            {% endif %}
 
-        {% endif %}
+            {% if current_user.is_admin %}
+
+                <a href="{{ url_for('add_movie') }}">Add a movie</a>
+                <a href="{{ url_for('add_screening') }}">Add a screening</a>
+
+            {% endif %}
+
+        </div>
     </nav>
     
     {% with messages = get_flashed_messages() %}
