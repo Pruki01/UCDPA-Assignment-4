@@ -1,0 +1,78 @@
+:root{
+
+    --image-width: 20rem;
+    --image-height: 30rem;
+    --image-margin-bottom: 0.6rem;
+
+    --movie-margin-width: 2rem;
+    --movie-margin-height: 3rem;
+
+}
+
+main div{
+
+    display: flex;
+    align-items: center;
+
+}
+
+img{
+
+    width: var(--image-width);
+    height: var(--image-height);
+    object-fit: cover;
+    margin-bottom: var(--image-margin-bottom);
+
+}
+
+.movie{
+
+    display: flex;
+    flex-direction: column;
+    margin: var(--movie-margin-height) var(--movie-margin-width);
+
+}
+
+.movie-link{
+
+    min-height: 2.5rem;
+
+}
+
+@media screen and (max-width: 750px){
+    
+    :root{
+
+        --image-width: 25rem;
+        --image-height: 36rem;
+
+    }
+
+    main div{
+
+        flex-direction: column;
+
+    }
+
+
+
+}
+
+@media screen and (max-width: 480px){
+    
+    :root{
+
+        --image-width: 23rem;
+        --image-height: 34rem;
+
+    }
+
+    main div{
+
+        flex-direction: column;
+
+    }
+
+
+
+}

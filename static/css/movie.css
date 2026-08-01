@@ -1,0 +1,31 @@
+:root{
+
+    --about-movie-width: 60rem;
+    --movie-div-width-margin: 2rem;
+
+    --movie-image-height: 36rem;
+    --movie-image-width: 25rem;
+
+}
+
+.about-movie{
+
+    display: flex;
+    width: var(--about-movie-width);
+    margin: 0 auto;
+
+}
+
+.about-movie > div{
+
+    margin: 0 var(--movie-div-width-margin);
+
+}
+
+.movie-image{
+
+    height: var(--movie-image-height);
+    width: var(--movie-image-width);
+    object-fit: cover;
+
+}
