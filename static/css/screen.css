@@ -1,26 +1,43 @@
 :root{
 
+
+    --seats-width: 70vw;
+    --seats-margin: 2.5rem;
+
+    --border-radius: .8rem;
     --seat-height: 2rem;
     --seath-width: 2.5rem;
-    --border-radius: .8rem;
-
     --seat-availlable: black;
     --seat--occupied: red;
     --seat--selected: rgb(39, 166, 189); 
 
+    --screen-height: 25rem;
+
 }
 
 
-.seats{
+.screen{
 
     margin: 0 auto;
-    display: inline-block;
+    background-color: black;
+    height: var(--screen-height);
+    width: calc(var(--screen-height) * 1.5);
+    transform: rotateX(-45deg);
+    perspective: 1000px;
+
+}
+
+.seats{
+
+    margin: var(--seats-margin) auto;
+    width: var(--seats-width);
 
 }
 
 .row{
 
     display: flex;
+    justify-content: center;
 
 }
 

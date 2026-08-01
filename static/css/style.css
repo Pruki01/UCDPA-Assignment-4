@@ -1,3 +1,44 @@
+:root{
+
+    --body-width: 95vw;
+
+    --nav-top-margin: 1.25rem;
+    --nav-bottom-margin: 2.5rem;
+    --nav-link-width-margin: .5rem;
+
+}
+
+
+*{
+    box-sizing: border-box;
+}
+
 body{
-    background-color: red;
+    
+  font-family: "Inter", sans-serif;
+  width: var(--body-width);
+  margin: 0 auto;
+
+}
+
+a{
+
+    text-decoration: none;
+    color: inherit;
+
+}
+
+nav{
+
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--nav-top-margin);
+    margin-bottom: var(--nav-bottom-margin);
+
+}
+
+nav a{
+
+    margin: var(--nav-link-width-margin);
+
 }

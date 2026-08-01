@@ -1,0 +1,65 @@
+:root{
+
+    --form-width: 50vw;
+    --input-width-padding: 0.3rem;
+    --input-height-padding: 0.6rem;
+    --input-border-radius: 0.5rem;
+
+    --remember-gap: 0.25rem;
+
+    --select-padding-width: 0.25rem;
+    --select-padding-height: 0.3rem;
+}
+
+main{
+
+    width: var(--form-width);
+    margin:0 auto;
+
+}
+
+form{
+
+    display: grid;
+    gap: 1rem;
+
+}
+
+form div{
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+input{
+
+    padding: var(--input-height-padding) var(--input-width-padding);
+    border-radius: var(--input-border-radius);
+
+}
+
+select{
+
+    padding: var(--select-padding-height) var(--select-padding-width);
+
+}
+
+#remember{
+
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--remember-gap);
+
+}
+
+#register-notice{
+    text-align: center;
+}
+
+#register-notice a{
+
+    text-decoration: underline;
+
+}
+
