@@ -74,26 +74,30 @@ def logout():
 def add_movie():
     form = AddMovieForm()
 
-    if form.validate_on_submit():
-        file = form.file.data
-        print(file)
-        print(app.config['UPLOAD_PATH'])
-        print(os.path.exists(app.config['UPLOAD_PATH']))
-        file.save(os.path.join(
-                    app.config['UPLOAD_PATH'],
-                    secure_filename(file.filename)
-                    ))
+    if current_user.is_admin:
 
-        new_movie = Movie(
-            title=form.title.data,
-            genre=MovieGenre(form.genre.data),
-            duration=form.duration.data,
-            status=MovieStatus(form.status.data),
-            image=file.filename
-        )
+        if form.validate_on_submit():
+            file = form.file.data
+            print(file)
+            print(app.config['UPLOAD_PATH'])
+            print(os.path.exists(app.config['UPLOAD_PATH']))
+            file.save(os.path.join(
+                        app.config['UPLOAD_PATH'],
+                        secure_filename(file.filename)
+                        ))
 
-        session.add(new_movie)
-        session.commit()
+            new_movie = Movie(
+                title=form.title.data,
+                genre=MovieGenre(form.genre.data),
+                duration=form.duration.data,
+                status=MovieStatus(form.status.data),
+                image=file.filename
+            )
+
+            session.add(new_movie)
+            session.commit()
+    else:
+        return redirect(url_for('index'))
 
     return render_template('movies/add_form.html', title='Add Movie', form=form)
 
@@ -112,31 +116,42 @@ def movie_view(id):
 @app.route('/movie/edit/<int:id>')
 def edit_movie(id):
 
-    movie = session.get(Movie, id)
-    form = AddMovieForm(obj=movie)
+    if current_user.is_admin:
+
+        movie = session.get(Movie, id)
+        form = AddMovieForm(obj=movie)
+
+    else:
+        return redirect(url_for('index'))
+
     return render_template('movies/edit_movie.html', form=form)
 
 @app.route('/movie/screenings/add', methods=['GET', 'POST'])
 def add_screening():
-    form = AddScreeningForm()
-    print(form)
 
-    if form.validate_on_submit():
+    if current_user.is_admin:
 
-        selected_screen = session.get(Screen, form.screen.data)
-        selected_movie  = session.get(Movie, form.movie.data)
+        form = AddScreeningForm()
+        print(form)
 
-        new_screening = Screening(
-            movie_id = selected_movie.id,
-            screen_id = selected_screen.id,
-            date = form.date.data,
-            time = form.time.data
-        )
-        
-        session.add(new_screening)
-        session.commit()
+        if form.validate_on_submit():
 
-        return redirect(url_for('index')) 
+            selected_screen = session.get(Screen, form.screen.data)
+            selected_movie  = session.get(Movie, form.movie.data)
+
+            new_screening = Screening(
+                movie_id = selected_movie.id,
+                screen_id = selected_screen.id,
+                date = form.date.data,
+                time = form.time.data
+            )
+            
+            session.add(new_screening)
+            session.commit()
+
+            return redirect(url_for('index')) 
+    else:
+        return redirect(url_for('index'))
 
     return render_template('movies/add_screening.html', form=form)
 
