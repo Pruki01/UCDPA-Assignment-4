@@ -16,7 +16,15 @@
 
     </div>
 
-    <button class="tickets-btn">Pay</button>
+    <form class="booking-form" action="" method="post">
+        
+        {{ form.hidden_tag() }}
+        {{ form.tickets() }}
+        <div>
+            {{ form.submit() }}
+        </div>
+
+    </form>
 
 <script src="{{ url_for('static', filename='js/seats.js')}}"></script>
 
