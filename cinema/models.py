@@ -1,11 +1,12 @@
-from typing import List, Optional
+from typing import List
 from enum import Enum
-from sqlalchemy import ForeignKey, String, Integer, Boolean, Date, Time, DateTime, Float
+from sqlalchemy import ForeignKey, String, Integer, Boolean, Date, Time, DateTime, Float, Text
 from sqlalchemy import Enum as SQLEnum
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import session, login, session
+
 class Base(DeclarativeBase):
     id: Mapped[int] = mapped_column(primary_key=True)
 
@@ -57,12 +58,13 @@ class MovieStatus(Enum):
 class Movie(Base):
     __tablename__ = 'movies'
 
-    title:      Mapped[str]                 = mapped_column(String(50))
-    genre:      Mapped[MovieGenre]          = mapped_column(SQLEnum(MovieGenre))
-    duration:   Mapped[int]                 = mapped_column(Integer)
-    status:     Mapped[MovieStatus]         = mapped_column(SQLEnum(MovieStatus))
-    image:      Mapped[str]                 = mapped_column(String(255)) 
-    screenings: Mapped[List['Screening']]   = relationship(
+    title:          Mapped[str]                 = mapped_column(String(50))
+    genre:          Mapped[MovieGenre]          = mapped_column(SQLEnum(MovieGenre))
+    description:    Mapped[str]                 = mapped_column(Text)
+    duration:       Mapped[int]                 = mapped_column(Integer)
+    status:         Mapped[MovieStatus]         = mapped_column(SQLEnum(MovieStatus))
+    image:          Mapped[str]                 = mapped_column(String(255)) 
+    screenings:     Mapped[List['Screening']]   = relationship(
         back_populates='movie',
         cascade='all, delete-orphan'
     )

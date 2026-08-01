@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
-from wtforms import EmailField, PasswordField, BooleanField, SubmitField, StringField, IntegerField, SelectField, DateField, TimeField
+from wtforms import EmailField, PasswordField, BooleanField, SubmitField, StringField, IntegerField, SelectField, DateField, TimeField, HiddenField, TextAreaField
 from wtforms.validators import ValidationError, DataRequired, EqualTo
 from cinema.models import User, MovieGenre, MovieStatus, Movie, Screen
 from app import session
@@ -24,6 +24,7 @@ class RegistrationForm(FlaskForm):
 
 class AddMovieForm(FlaskForm):
     title       = StringField('Title', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
     duration    = IntegerField('Duration', validators=[DataRequired()])
     genre       = SelectField("Genres",
                               choices=[(genre.value, genre.name.title()) for genre in MovieGenre],
@@ -53,3 +54,7 @@ class AddScreeningForm(FlaskForm):
     date = DateField('Date', validators=[DataRequired()])
     time = TimeField('Time', validators=[DataRequired()])
     submit = SubmitField('Add Screening')
+
+class AddTickets(FlaskForm):
+    tickets = HiddenField('Tickets')
+    submit  = SubmitField('Pay')
