@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <div id="current-movies">
+    <div class="movies" id="current-movies">
         {% for movie in current_movies %}
             <h2>
 
@@ -14,7 +14,7 @@
         {% endfor %}
     </div>
 
-    <div id="special-movies">
+    <div class="movies" id="special-movies">
         {% for movie in special_movies %}
             <h2>
 
@@ -26,7 +26,7 @@
         {% endfor %}
     </div>
 
-    <div id="upcoming-movies">
+    <div class="movies" id="upcoming-movies">
         {% for movie in upcoming_movies %}
             <h2>
 
