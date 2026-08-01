@@ -13,6 +13,24 @@
 
     --screen-height: 25rem;
 
+    --submit-fs: 1.1rem;
+    --submit-padding: 0.4rem;
+
+    --form-bottom-margin: 2rem;
+
+}
+
+form{
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--form-bottom-margin);
+}
+
+form input[type=submit]{
+
+    font-size: var(--submit-fs);
+    padding: var(--submit-padding);
+
 }
 
 
